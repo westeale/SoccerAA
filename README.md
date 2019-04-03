@@ -1,4 +1,7 @@
 # SoccerAA: Soccer Advertisement Analysis
-**Werbeeinblendungen bei Sport Ereignissen**
+**Advertisement analysis at sport events**
 
-Bei Sportereignissen gibt es immer Einblendungen von Werbung. Die Zeit in welcher die Werbung eingeblendet wird ist aber sehr unterschiedlich und abhängig vom Verlauf des Ereignis. Weiterhin ist die Dauer der Einblendung in Zusammenfassungen (z.B. Sportschau) ebenfalls sehr unterschiedlich (Andreas Weiler).
+This prototype demonstrates the concept to detect Advertisements specific in football games. 
+Object and image detection is already a well-researched area. However, most reliable methods are based on a learning process where the algorithm learns to detect the specific object. This makes it impossible to quickly change the advertising templates as the algorithms (Neural Networks, Haar Cascades) have to be retrained on them. 
+This prototype uses the unique features specific for the domain in football games to detect advertisements on the fly. 
+
