@@ -2,16 +2,35 @@
 Configuration for the SoccerAA
 """
 
-DIR_TEMPLATES = '../data/in/templates'
-DIR_TARGETS = '../data/in/targets'
-DIR_VIDEOS = '../data/in/videos'
-DIR_OUT = '../data/out'
+DIR_TEMPLATES = '../data/in/templates/'
+DIR_TARGETS = '../data/in/targets/'
+DIR_VIDEOS = '../data/in/videos/'
+DIR_OUT = '../data/out/'
 
-PRINT_INFO = False
+DEBUG = True
 SHOW_PROCESS = False
 INPUT_VIDEO = False
 VIDEO_FILENAME = ''
-ACCURACY = 2
+
+# Features:
+ADD_ORIGINAL_TEMPLATE = True
+ADD_DISTORTED_TEMPLATE = True
+TARGET_COMPRESSION = False
+BACKTRACKNG = True
+SKIP_FRAMES = False
+FLANN_MATCHER = True
+
+# Prameters:
+TEMPLATE_WIDTH_SCALE = 0.7
+TEMPLATE_HEIGHT_SHIFT = 0.4
+TARGET_COMPRESSION_RATE = 0.5
+SKIPPING_FRAMES = 1
+FLANN_ALGORITHM = 1
+MATCHING_TOLERANCE = 0.7
+MIN_MATCHING_COUNT = 10
+TEMPLATE_RATIO_THRESHOLD = 4
+
+
 
 
 
