@@ -46,7 +46,6 @@ def check_box(dst, ratio_check):
     r3 = abs((dst[1][0][0] - dst[2][0][0]) / (dst[1][0][1] - dst[0][0][1]))
     test_ratio = 0.3 < abs(ratio_check / r3) < 3
 
-
     return ratio and test_ratio
 
 

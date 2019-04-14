@@ -15,7 +15,6 @@ parser.add_argument('-debug', help="Show debug messages in console", action='sto
 parser.add_argument('-out', help="Show real time image processing", action='store_true')
 
 
-
 def init():
     args = parser.parse_args()
 
@@ -39,12 +38,14 @@ def set_accuracy(accuracy):
         config.BACKTRACKNG = False
         config.SKIP_FRAMES = True
         config.FLANN_MATCHER = False
+        config.FAST_TRACKER = True
 
     elif accuracy == 1:
         # features for medium perfmance
         config.TARGET_COMPRESSION = True
         config.BACKTRACKNG = False
         config.FLANN_MATCHER = False
+        config.FAST_TRACKER = True
 
 
 if __name__ == "__main__":

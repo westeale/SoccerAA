@@ -86,7 +86,7 @@ class Detector():
 
             logos[template.name] = found_logos
 
-        return logos
+        return logos, frame
 
 
 

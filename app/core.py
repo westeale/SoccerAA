@@ -37,16 +37,29 @@ def run():
     check_frame, frame = stream.next()
 
     while check_frame:
-        frame_copy = frame.copy()
-        logos = detector.detect(frame)
+        frame_plain = frame.copy()
 
-        for name, boxes in logos.items():
-            frame = cv.polylines(frame_copy, boxes, True, 255, 6, cv.LINE_AA)
-            cv.imshow(name, frame_copy)
-            cv.waitKey(0)
-            cv.destroyAllWindows()
+        img1 = frame.copy()
 
+        logos_tracked, frame = tracker.update(frame)
+
+        logos, frame = detector.detect(frame)
+
+        for key in logos:
+            for logo in logos[key]:
+                img1 = cv.polylines(img1, [logo], True, 255, 6, cv.LINE_AA)
+
+        for key in logos_tracked:
+            for logo in logos_tracked[key]:
+                img1 = cv.polylines(img1, [logo], True, 255, 6, cv.LINE_AA)
+
+        cv.imshow('deteckted logos', img1)
+        cv.waitKey(0)
+        cv.destroyAllWindows()
+
+        tracker.add_objects(logos, frame_plain)
         check_frame, frame = stream.next()
+        print("okk")
 
 
 
