@@ -3,19 +3,49 @@ Entry point for the Soccer Advertisment Analyser
 """
 
 import argparse
+from app import config, core
+
+accuracies = {'low': 0, 'medium': 1, 'high': 2}
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--input', help="Set to images or name of video. Default is: images", default='images')
-parser.add_argument('--accuracy', help="Set accuracy of ad detection (low accuracy has highest performance)", default='high', choices=['low', 'medium', 'high'])
-parser.add_argument('-out', help="Show analysis during processing", action='store_true')
+parser.add_argument('--accuracy', help="Set accuracy of ad detection (low accuracy has highest performance)", default='high', choices=[key for key in accuracies.keys()])
+parser.add_argument('-debug', help="Show debug messages in console", action='store_true')
+parser.add_argument('-out', help="Show real time image processing", action='store_true')
 
 
 def init():
     args = parser.parse_args()
-    print(args.input)
-    print(args.accuracy)
-    print(args.out)
+
+    config.SHOW_PROCESS = args.out
+    config.DEBUG = args.debug
+
+    if args.input != 'images':
+        config.VIDEO_FILENAME = args.input
+        config.INPUT_VIDEO = True
+
+    set_accuracy(accuracies[args.accuracy])
+
+    core.run()
+
+def set_accuracy(accuracy):
+    if accuracy == 0:
+        # features for high perfmance
+        config.ADD_DISTORTED_TEMPLATE = False
+        config.ADD_ORIGINAL_TEMPLATE = False
+        config.TARGET_COMPRESSION = True
+        config.BACKTRACKNG = False
+        config.SKIP_FRAMES = True
+        config.FLANN_MATCHER = False
+        config.FAST_TRACKER = True
+
+    elif accuracy == 1:
+        # features for medium perfmance
+        config.TARGET_COMPRESSION = True
+        config.BACKTRACKNG = False
+        config.FLANN_MATCHER = False
+        config.FAST_TRACKER = True
 
 
 if __name__ == "__main__":
