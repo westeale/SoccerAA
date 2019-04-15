@@ -35,7 +35,6 @@ def set_accuracy(accuracy):
         config.ADD_DISTORTED_TEMPLATE = False
         config.ADD_ORIGINAL_TEMPLATE = False
         config.TARGET_COMPRESSION = True
-        config.BACKTRACKNG = False
         config.SKIP_FRAMES = True
         config.FLANN_MATCHER = False
         config.FAST_TRACKER = True
@@ -43,7 +42,6 @@ def set_accuracy(accuracy):
     elif accuracy == 1:
         # features for medium perfmance
         config.TARGET_COMPRESSION = True
-        config.BACKTRACKNG = False
         config.FLANN_MATCHER = False
         config.FAST_TRACKER = True
 

@@ -1,6 +1,6 @@
 
 
-d = {'ab': 3, 'cd': 4}
+tracked = None
 
-x = d['adb']
-print(x)
+if not tracked:
+    print("no")

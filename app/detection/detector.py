@@ -74,7 +74,7 @@ class Detector():
 
                         found_logos.append(np.int32(dst))
 
-                        # fill target with space (less to search):
+                        # fill target with black space (less to search):
                         dst = helper.create_bars(dst, frame_height)
 
                         frame = cv.fillPoly(frame, [np.int32(dst)], 0)
@@ -84,7 +84,8 @@ class Detector():
                     else:
                         logo_found = False
 
-            logos[template.name] = found_logos
+            if found_logos:
+                logos[template.name] = found_logos
 
         return logos, frame
 
