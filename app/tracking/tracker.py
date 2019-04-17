@@ -22,6 +22,7 @@ class ObjectTracker:
         self.offsets = offsets
         self.current_box_position = None
 
+
 class Tracker:
     def __init__(self):
         self._object_trackers = list()
@@ -39,11 +40,6 @@ class Tracker:
 
                 self._object_trackers.append(ObjectTracker(frame, rectangle, offsets, name))
 
-                original_frame = frame.copy()
-                p1 = (int(rectangle[0]), int(rectangle[1]))
-                p2 = (int(rectangle[0] + rectangle[2]), int(rectangle[1] + rectangle[3]))
-                cv.rectangle(original_frame, p1, p2, (255, 255, 255), 2, 1)
-
 
     def update(self, frame):
         frame_height, frame_width = frame.shape[:2]
@@ -57,7 +53,6 @@ class Tracker:
 
             if not check_tracker:
                 # Object lost
-                print("Lost object while tracking")
                 continue
             keep_trackers.append(object_tracker)
             self._n_tracked_frames += 1
@@ -82,7 +77,6 @@ class Tracker:
             if not check_tracker:
                 # Object lost
                 self._empyt_tracker = None
-                print("Lost empty tracker")
             else:
                 if not hlp.box_in_frame(frame_height, frame_width, rectangle, config.EMPTY_BOX_IN_FRAME):
                     self._empyt_tracker = None
@@ -91,6 +85,7 @@ class Tracker:
                 frame = cv.fillPoly(frame, [black_bar], 0)
 
         return logos, frame
+
 
 
     def add_empty_area(self, frame):
@@ -105,6 +100,7 @@ class Tracker:
             frame_height, frame_width = frame.shape[:2]
             box = hlp.calc_frame_box(frame_height, frame_width, config.EMPTY_BOX_OFFSET)
             self._empyt_tracker = ObjectTracker(frame, box)
+
 
     @property
     def n_tracked_frames(self):

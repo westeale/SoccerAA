@@ -54,7 +54,11 @@ class Detector():
 
                     kp2, des2 = self._detector.detectAndCompute(frame_filtered, None)
 
-                    matches = self._matcher.knnMatch(des1, des2, k=2)
+                    try:
+                        matches = self._matcher.knnMatch(des1, des2, k=2)
+                    except:
+                        logo_found = False
+                        continue
 
                     good = []
                     for m, n in matches:

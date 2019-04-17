@@ -55,4 +55,8 @@ class ImageProvider():
 
         return True, img
 
+    @property
+    def current_frame(self):
+        return self._original_frame
+
 

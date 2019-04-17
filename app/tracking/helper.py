@@ -3,6 +3,7 @@ Helper Functions for Tracking
 """
 import numpy as np
 
+
 def calc_rectangle(polygon):
     """
     Calculates a rectangle for th etracker from a polygon.
@@ -65,7 +66,6 @@ def calc_polygon(rectangle, offsets):
     return polygon
 
 
-
 def fill_bar(rectangle, frame_height):
     """
     Creating a rectangle over the frame, to fill the whole height
@@ -85,6 +85,7 @@ def fill_bar(rectangle, frame_height):
     bar[3][0][1] = 0
 
     return bar
+
 
 def fill_rectangle(rectangle):
     """
@@ -115,10 +116,11 @@ def calc_frame_box(frame_height, frame_width, offset):
     :param offset: left, right bottom, up offset in relation to frame size
     :return: box for tracking
     """
-    offset_vertical = round(frame_height / offset)
-    offset_horizontal = round(frame_width / offset)
+    offset_vertical = round(frame_height * offset / 100)
+    offset_horizontal = round(frame_width * offset / 100)
     points = (offset_horizontal, offset_vertical, frame_width - offset_horizontal*2, frame_height - offset_vertical*2)
     return points
+
 
 def box_in_frame(frame_height, frame_width, box, threshold):
     """

@@ -8,6 +8,7 @@ from app.template_processing import template_processor
 from app.image_handling import image_provider
 from app.detection import detector as dt
 from app.tracking import tracker as trck
+from app.result_processing import result_generator
 from app import config
 from app import helper as hlp
 import cv2 as cv
@@ -36,6 +37,10 @@ def run():
 
     # init tracker
     tracker = trck.Tracker()
+
+    # init Result generator
+    result = result_generator.Result(config.TARGET_COMPRESSION_RATE)
+
     logos_detected = None
     check_frame, frame = stream.next()
     n_logos_tracked = 0
@@ -60,9 +65,12 @@ def run():
             for logo in logos_tracked[key]:
                 frame_plain = cv.polylines(frame_plain, [logo], True, 255, 6, cv.LINE_AA)
 
-        cv.imshow('deteckted logos', frame )
-        cv.waitKey(0)
-        cv.destroyAllWindows()
+        result.process(stream.current_frame, logos_detected, logos_tracked)
+
+        # cv.imshow('deteckted logos', frame )
+        # cv.waitKey(0)
+        # cv.destroyAllWindows()
+
         n_logos_tracked = tracker.n_tracked_frames
         check_frame, frame = stream.next()
 
