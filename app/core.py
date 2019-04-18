@@ -38,11 +38,14 @@ def run():
     # init tracker
     tracker = trck.Tracker()
 
+    # Read first frame
+    check_frame, frame = stream.next()
+
     # init Result generator
-    result = result_generator.Result(config.TARGET_COMPRESSION_RATE)
+    result = result_generator.Result(config.TARGET_COMPRESSION_RATE, stream.frame_size, stream.fps)
 
     logos_detected = None
-    check_frame, frame = stream.next()
+
     n_logos_tracked = 0
     while check_frame:
         frame_plain = frame.copy()
@@ -55,15 +58,10 @@ def run():
         if track_empty_space and not logos_tracked and not logos_detected:
             tracker.add_empty_area(frame_plain)
 
+        if config.SHOW_IGNORE_AREA:
+            cv.imshow('ignored area', frame)
+
         tracker.add_objects(logos_detected, frame_plain)
-
-        for key in logos_detected:
-            for logo in logos_detected[key]:
-                frame_plain = cv.polylines(frame_plain, [logo], True, 255, 6, cv.LINE_AA)
-
-        for key in logos_tracked:
-            for logo in logos_tracked[key]:
-                frame_plain = cv.polylines(frame_plain, [logo], True, 255, 6, cv.LINE_AA)
 
         result.process(stream.current_frame, logos_detected, logos_tracked)
 
@@ -73,6 +71,12 @@ def run():
 
         n_logos_tracked = tracker.n_tracked_frames
         check_frame, frame = stream.next()
+
+    # Release video read
+    stream.finalize()
+
+    # Generate reports
+    result.finalize()
 
 
 if __name__ == "__main__":

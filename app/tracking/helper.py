@@ -2,6 +2,7 @@
 Helper Functions for Tracking
 """
 import numpy as np
+np.seterr(divide='ignore')
 
 
 def calc_rectangle(polygon):
@@ -61,7 +62,6 @@ def calc_polygon(rectangle, offsets):
     polygon[0][0][0] = rectangle[0]
     polygon[2][0][0] = point2
     polygon[3][0][0] = point2
-
 
     return polygon
 

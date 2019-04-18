@@ -9,7 +9,7 @@ import cv2 as cv
 from app import config
 
 
-class ImageProvider():
+class ImageProvider:
     def __init__(self, compression=False, compression_rate=0.5):
         self._video = False
         self._cap = None
@@ -19,11 +19,13 @@ class ImageProvider():
         self._compression_rate = compression_rate
         self._original_frame = None
         self._n_frames = 0
+        self._fps = 0
         pass
 
     def set_video_source(self, video_dir):
         self._video = True
         self._cap = cv.VideoCapture(video_dir)
+        self._fps = self._cap.get(cv.CAP_PROP_FPS)
 
     def set_images_source(self, images_dir):
         self._image_dir = images_dir
@@ -55,8 +57,20 @@ class ImageProvider():
 
         return True, img
 
+    def finalize(self):
+        if self._video:
+            self._cap.release()
+
     @property
     def current_frame(self):
         return self._original_frame
+
+    @property
+    def fps(self):
+        return self._fps
+
+    @property
+    def frame_size(self):
+        return self._original_frame.shape[:2]
 
 

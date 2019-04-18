@@ -7,17 +7,17 @@ from app import config
 import app.tracking.helper as hlp
 import cv2 as cv
 
-def create_tracker():
-    if config.FAST_TRACKER:
+def create_tracker(fast_tracker):
+    if fast_tracker:
         return cv.TrackerMOSSE_create()
     else:
         return cv.TrackerMedianFlow_create()
 
 
 class ObjectTracker:
-    def __init__(self, frame, rectangle, offsets=None,  logo_name=None):
+    def __init__(self, frame, rectangle, fast_tracker=False, offsets=None,  logo_name=None):
         self.name = logo_name
-        self.tracking = create_tracker()
+        self.tracking = create_tracker(fast_tracker)
         self.tracking.init(frame, rectangle)
         self.offsets = offsets
         self.current_box_position = None
@@ -37,9 +37,10 @@ class Tracker:
             boxes = logos[name]
             for box in boxes:
                 rectangle, offsets = hlp.calc_rectangle(box)
-
-                self._object_trackers.append(ObjectTracker(frame, rectangle, offsets, name))
-
+                # rectangle = (abs(rectangle[0]), abs(rectangle[1]), abs(rectangle[2]), abs(rectangle[3]))
+                if rectangle[0] >= 0 and rectangle[1] >= 0 and rectangle[2] >= 0 and rectangle[3] >= 0:
+                    self._object_trackers.append(ObjectTracker(frame, rectangle, config.FAST_TRACKER, offsets, name))
+                    self._object_trackers.append(ObjectTracker(frame, rectangle, config.FAST_TRACKER, offsets, name))
 
     def update(self, frame):
         frame_height, frame_width = frame.shape[:2]
@@ -99,7 +100,7 @@ class Tracker:
 
             frame_height, frame_width = frame.shape[:2]
             box = hlp.calc_frame_box(frame_height, frame_width, config.EMPTY_BOX_OFFSET)
-            self._empyt_tracker = ObjectTracker(frame, box)
+            self._empyt_tracker = ObjectTracker(frame, box, False)
 
 
     @property
