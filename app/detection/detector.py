@@ -51,10 +51,12 @@ class Detector():
                 logo_found = True
 
                 while logo_found:
-
-                    kp2, des2 = self._detector.detectAndCompute(frame_filtered, None)
-
-                    matches = self._matcher.knnMatch(des1, des2, k=2)
+                    try:
+                        kp2, des2 = self._detector.detectAndCompute(frame_filtered, None)
+                        matches = self._matcher.knnMatch(des1, des2, k=2)
+                    except:
+                        logo_found = False
+                        continue
 
                     good = []
                     for m, n in matches:
@@ -74,7 +76,7 @@ class Detector():
 
                         found_logos.append(np.int32(dst))
 
-                        # fill target with space (less to search):
+                        # fill target with black space (less to search):
                         dst = helper.create_bars(dst, frame_height)
 
                         frame = cv.fillPoly(frame, [np.int32(dst)], 0)
@@ -84,7 +86,8 @@ class Detector():
                     else:
                         logo_found = False
 
-            logos[template.name] = found_logos
+            if found_logos:
+                logos[template.name] = found_logos
 
         return logos, frame
 

@@ -8,8 +8,12 @@ from app.template_processing import template_processor
 from app.image_handling import image_provider
 from app.detection import detector as dt
 from app.tracking import tracker as trck
+from app.result_processing import result_generator
 from app import config
+from app import helper as hlp
 import cv2 as cv
+
+track_empty_space = config.TRACK_EMPTY_AREA or config.DELAYED_TRACK_EMPTY_AREA
 
 
 def run():
@@ -20,7 +24,7 @@ def run():
     print(colored('-- {} templates processed!'.format(len(templates)), 'green'))
 
     # Init image provider
-    stream = image_provider.ImageProvider(config.TARGET_COMPRESSION, config.TARGET_COMPRESSION_RATE, config.BACKTRACKNG)
+    stream = image_provider.ImageProvider(config.TARGET_COMPRESSION, config.TARGET_COMPRESSION_RATE)
     if config.INPUT_VIDEO:
         print("-- taking video input --")
         stream.set_video_source(config.DIR_VIDEOS + config.VIDEO_FILENAME)
@@ -34,34 +38,45 @@ def run():
     # init tracker
     tracker = trck.Tracker()
 
+    # Read first frame
     check_frame, frame = stream.next()
 
+    # init Result generator
+    result = result_generator.Result(config.TARGET_COMPRESSION_RATE, stream.frame_size, stream.fps)
+
+    logos_detected = None
+
+    n_logos_tracked = 0
     while check_frame:
         frame_plain = frame.copy()
 
-        img1 = frame.copy()
-
         logos_tracked, frame = tracker.update(frame)
 
-        logos, frame = detector.detect(frame)
+        if hlp.search_logos(tracker.n_tracked_frames, n_logos_tracked):
+            logos_detected, frame = detector.detect(frame)
 
-        for key in logos:
-            for logo in logos[key]:
-                img1 = cv.polylines(img1, [logo], True, 255, 6, cv.LINE_AA)
+        if track_empty_space and not logos_tracked and not logos_detected:
+            tracker.add_empty_area(frame_plain)
 
-        for key in logos_tracked:
-            for logo in logos_tracked[key]:
-                img1 = cv.polylines(img1, [logo], True, 255, 6, cv.LINE_AA)
+        if config.SHOW_IGNORE_AREA:
+            cv.imshow('ignored area', frame)
 
-        cv.imshow('deteckted logos', img1)
-        cv.waitKey(0)
-        cv.destroyAllWindows()
+        tracker.add_objects(logos_detected, frame_plain)
 
-        tracker.add_objects(logos, frame_plain)
+        result.process(stream.current_frame, logos_detected, logos_tracked)
+
+        # cv.imshow('deteckted logos', frame )
+        # cv.waitKey(0)
+        # cv.destroyAllWindows()
+
+        n_logos_tracked = tracker.n_tracked_frames
         check_frame, frame = stream.next()
-        print("okk")
 
+    # Release video read
+    stream.finalize()
 
+    # Generate reports
+    result.finalize()
 
 
 if __name__ == "__main__":

@@ -1,6 +1,21 @@
+"""
+Helper Functions for Result generator
+"""
+import cv2 as cv
 
+video = cv.VideoCapture('../data/in/videos/tracking1.mp4')
+fps = video.get(cv.CAP_PROP_FPS)
+ok, img = video.read()
 
-d = {'ab': 3, 'cd': 4}
+frame_size = img.shape[:2]
+size = (frame_size[1], frame_size[0])
+fourcc = cv.VideoWriter_fourcc(*'XVID')
+out = cv.VideoWriter('../data/out/test1.avi',fourcc, fps, size)
 
-x = d['adb']
-print(x)
+while ok:
+    ok, img = video.read()
+    out.write(img)
+
+video.release()
+out.release()
+

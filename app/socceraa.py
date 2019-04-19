@@ -13,6 +13,7 @@ parser.add_argument('--input', help="Set to images or name of video. Default is:
 parser.add_argument('--accuracy', help="Set accuracy of ad detection (low accuracy has highest performance)", default='high', choices=[key for key in accuracies.keys()])
 parser.add_argument('-debug', help="Show debug messages in console", action='store_true')
 parser.add_argument('-out', help="Show real time image processing", action='store_true')
+parser.add_argument('-tr', help="Shows areas to ignore", action='store_true')
 
 
 def init():
@@ -20,6 +21,7 @@ def init():
 
     config.SHOW_PROCESS = args.out
     config.DEBUG = args.debug
+    # config.SHOW_IGNORE_AREA = args.tr
 
     if args.input != 'images':
         config.VIDEO_FILENAME = args.input
@@ -35,7 +37,6 @@ def set_accuracy(accuracy):
         config.ADD_DISTORTED_TEMPLATE = False
         config.ADD_ORIGINAL_TEMPLATE = False
         config.TARGET_COMPRESSION = True
-        config.BACKTRACKNG = False
         config.SKIP_FRAMES = True
         config.FLANN_MATCHER = False
         config.FAST_TRACKER = True
@@ -43,7 +44,6 @@ def set_accuracy(accuracy):
     elif accuracy == 1:
         # features for medium perfmance
         config.TARGET_COMPRESSION = True
-        config.BACKTRACKNG = False
         config.FLANN_MATCHER = False
         config.FAST_TRACKER = True
 
