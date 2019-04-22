@@ -1,5 +1,5 @@
 """
-Provides stream of images based on input
+Provides stream of images based on input,
 cashes previous images for backtracking
 """
 
@@ -26,10 +26,12 @@ class ImageProvider:
         self._video = True
         self._cap = cv.VideoCapture(video_dir)
         self._fps = self._cap.get(cv.CAP_PROP_FPS)
+        self._n_frames = self._cap.get(cv.CAP_PROP_FRAME_COUNT)
 
     def set_images_source(self, images_dir):
         self._image_dir = images_dir
         self._image_names = os.listdir(images_dir)
+        self._n_frames = len(self._image_names)
 
     def next(self):
         if self._video:
@@ -48,7 +50,6 @@ class ImageProvider:
         if not check:
             return False, None
 
-        self._n_frames += 1
         self._original_frame = img
 
         # Compress image
@@ -72,5 +73,9 @@ class ImageProvider:
     @property
     def frame_size(self):
         return self._original_frame.shape[:2]
+
+    @property
+    def n_frames(self):
+        return self._n_frames
 
 

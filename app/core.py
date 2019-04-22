@@ -26,10 +26,10 @@ def run():
     # Init image provider
     stream = image_provider.ImageProvider(config.TARGET_COMPRESSION, config.TARGET_COMPRESSION_RATE)
     if config.INPUT_VIDEO:
-        print("-- taking video input --")
+        print("-- taking video input --\n")
         stream.set_video_source(config.DIR_VIDEOS + config.VIDEO_FILENAME)
     else:
-        print("-- taking pictures input --")
+        print("-- taking pictures input --\n")
         stream.set_images_source(config.DIR_TARGETS)
 
     # init advertisment detection
@@ -42,7 +42,7 @@ def run():
     check_frame, frame = stream.next()
 
     # init Result generator
-    result = result_generator.Result(config.TARGET_COMPRESSION_RATE, stream.frame_size, stream.fps)
+    result = result_generator.Result(config.TARGET_COMPRESSION_RATE, stream.frame_size, stream.n_frames, stream.fps)
 
     logos_detected = None
 
