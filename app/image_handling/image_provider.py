@@ -55,6 +55,8 @@ class ImageProvider:
         # Compress image
         if self._compression:
             img = cv.resize(img, None, fx=self._compression_rate, fy=self._compression_rate, interpolation=cv.INTER_CUBIC)
+        else:
+            img = img.copy()
 
         return True, img
 

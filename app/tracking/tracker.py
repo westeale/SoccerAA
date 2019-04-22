@@ -7,9 +7,10 @@ from app import config
 import app.tracking.helper as hlp
 import cv2 as cv
 
+
 def create_tracker(fast_tracker):
     if fast_tracker:
-        return cv.TrackerMOSSE_create()
+        return cv.TrackerKCF_create()
     else:
         return cv.TrackerMedianFlow_create()
 
@@ -100,7 +101,7 @@ class Tracker:
 
             frame_height, frame_width = frame.shape[:2]
             box = hlp.calc_frame_box(frame_height, frame_width, config.EMPTY_BOX_OFFSET)
-            self._empyt_tracker = ObjectTracker(frame, box, False)
+            self._empyt_tracker = ObjectTracker(frame, box, True)
 
 
     @property
