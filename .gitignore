@@ -107,5 +107,6 @@ venv.bak/
 .idea/
 
 # ignore data
-data/in/
 data/out/
+data/in/videos
+
