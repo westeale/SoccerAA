@@ -97,6 +97,9 @@ def run():
     print('Average time per frame: {}'.format(average_frame_time))
     print('Average time to search logos: {}'.format(average_search_time))
 
+    print(result.found_logos)
+    print(result.frame_rate)
+
 
 def init_cpu_boost():
     try:
