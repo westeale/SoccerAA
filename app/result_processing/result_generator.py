@@ -1,7 +1,10 @@
 """
 Generates Reports and tagged video or images
 """
+import sys
 import time
+
+from termcolor import colored
 
 import app.result_processing.helper as hlp
 import numpy as np
@@ -33,13 +36,14 @@ class Out:
 
 
 class Result:
-    def __init__(self, compression_rate, frame_size, frame_rate=0):
+    def __init__(self, compression_rate, frame_size, n_frames, frame_rate=0):
         self._compression_rate = compression_rate
         self._out = Out()
         self._frame_rate = frame_rate
         self._frame_size = (frame_size[1], frame_size[0])
         self._out.init_video_writer(self._frame_size, frame_rate)
         self._found_logos = list()
+        self._n_frames = n_frames
 
 
     def process(self, image, logos_detected, logos_tracked):
@@ -85,6 +89,9 @@ class Result:
 
 
         self._out.write(image)
+
+        sys.stdout.write('\r' + colored('{} out of {} frames processed', 'blue').format(len(self._found_logos), int(self._n_frames)))
+        # print(str(len(self._found_logos)) + ' frames processed', end='\r')
 
 
     def finalize(self):
