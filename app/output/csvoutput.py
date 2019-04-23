@@ -19,20 +19,23 @@ def create_csv(branddata, framerate):
     survey = []
 
     for brand in brands:
-        get_times_for_brand(brand, video_length, branddata)
+        get_times_for_brand(brand, video_length, branddata, framerate)
 
 
-def get_times_for_brand(brand, video_length, branddata):
+def get_times_for_brand(brand, video_length, branddata, framerate):
+    frame_number = 0
 
     for frame in branddata:
+        frame_number += 1
         for brand_ in frame.keys():
-            if brand is brand_:
-                if brand is "wanda":
-                    print(frame.get(brand))
+            if brand in brand_:
+                video_time = datetime.timedelta(seconds=frame_number / framerate)
+                occurences = frame.get(brand)
+                #print(str(video_time) + ": " + str(occurences))
 
 
 if __name__ == "__main__":
-    dicts = [{'wanda': 2}, {}, {'hyundai': 1, 'wanda': 1}]
-    framerate = 24.0
+    dicts = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {'wanda': 4}, {'wanda': 5}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 6}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 4}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 5}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 2}, {'wanda': 2}, {'wanda': 2}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 3}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}, {'wanda': 4}]
+    framerate = 25.0
 
     create_csv(dicts, framerate)
