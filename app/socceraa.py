@@ -37,7 +37,6 @@ def set_accuracy(accuracy):
         config.ADD_DISTORTED_TEMPLATE = False
         config.ADD_ORIGINAL_TEMPLATE = False
         config.TARGET_COMPRESSION = True
-        config.SKIP_FRAMES = True
         config.FLANN_MATCHER = False
         config.FAST_TRACKER = True
 
