@@ -41,7 +41,6 @@ class Tracker:
                 # rectangle = (abs(rectangle[0]), abs(rectangle[1]), abs(rectangle[2]), abs(rectangle[3]))
                 if rectangle[0] >= 0 and rectangle[1] >= 0 and rectangle[2] >= 0 and rectangle[3] >= 0:
                     self._object_trackers.append(ObjectTracker(frame, rectangle, config.FAST_TRACKER, offsets, name))
-                    self._object_trackers.append(ObjectTracker(frame, rectangle, config.FAST_TRACKER, offsets, name))
 
     def update(self, frame):
         frame_height, frame_width = frame.shape[:2]
@@ -56,6 +55,11 @@ class Tracker:
             if not check_tracker:
                 # Object lost
                 continue
+
+            if not hlp.in_frame(frame_width, rectangle):
+                continue
+
+
             keep_trackers.append(object_tracker)
             self._n_tracked_frames += 1
             black_bar = hlp.fill_bar(rectangle, frame_height)
