@@ -23,12 +23,12 @@ def create_csv(branddata, framerate):
 
 
 def get_times_for_brand(brand, video_length, branddata):
-    
+
     for frame in branddata:
         for brand_ in frame.keys():
             if brand is brand_:
-                pass
-                #print(brand)
+                if brand is "wanda":
+                    print(frame.get(brand))
 
 
 if __name__ == "__main__":
