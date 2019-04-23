@@ -36,26 +36,34 @@ class Out:
 
 
 class Result:
-    def __init__(self, compression_rate, frame_size, n_frames, frame_rate=0):
+    def __init__(self, compression, compression_rate, frame_size, n_frames, frame_rate=0):
         self._compression_rate = compression_rate
+        self._compression = compression
         self._out = Out()
         self._frame_rate = frame_rate
         self._frame_size = (frame_size[1], frame_size[0])
-        self._out.init_video_writer(self._frame_size, frame_rate)
         self._found_logos = list()
         self._n_frames = n_frames
+        if config.INPUT_VIDEO:
+            self._out.init_video_writer(self._frame_size, frame_rate)
 
 
     def process(self, image, logos_detected, logos_tracked):
         found_logos = dict()
         for logo in logos_tracked:
-            logos_scaled = hlp.scale_logos(logos_tracked[logo], self._compression_rate)
+            if self._compression:
+                logos_scaled = hlp.scale_logos(logos_tracked[logo], self._compression_rate)
+            else:
+                logos_scaled = logos_tracked[logo]
             found_logos[logo] = logos_scaled
 
         for logo in logos_detected:
-            logos_scaled = hlp.scale_logos(logos_detected[logo], self._compression_rate)
+            if self._compression:
+                logos_scaled = hlp.scale_logos(logos_detected[logo], self._compression_rate)
+            else:
+                logos_scaled = logos_detected[logo]
+
             if logo in found_logos:
-                # Todo: test if other way possible
                 found_logos[logo] = np.concatenate((found_logos[logo], logos_scaled))
             else:
                 found_logos[logo] = logos_scaled
@@ -91,12 +99,15 @@ class Result:
         self._out.write(image)
 
         sys.stdout.write('\r' + colored('{} out of {} frames processed', 'blue').format(len(self._found_logos), int(self._n_frames)))
-        # print(str(len(self._found_logos)) + ' frames processed', end='\r')
 
 
     def finalize(self):
         self._out.finalize()
 
+
+    @property
+    def n_frames(self):
+        return self._n_frames
 
 
 

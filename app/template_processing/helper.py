@@ -32,6 +32,7 @@ def extract_dominant_colors(img, n_colors=2):
     :param n_colors: number of dominant colors (bgr)
     :return: average color and list of dominant colors (bgr)
     """
+    img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
     average_color = img.mean(axis=0).mean(axis=0)
     pixels = np.float32(img.reshape(-1, 3))
 
@@ -49,8 +50,8 @@ def __test_extract_dominant_colors():
     test_img = cv.imread('../../data/tests/adidas.png')
     average_color, palette = extract_dominant_colors(test_img)
 
-    assert np.around(average_color).tolist() == [10, 98, 93]
-    assert np.around(palette).tolist() == [[3, 4, 7], [22, 246, 229]]
+    assert np.around(average_color).tolist() == [73, 210, 100]
+    assert np.around(palette).tolist() == [[32, 231, 246], [100, 197, 7]]
 
 
 def __test_scale_image():

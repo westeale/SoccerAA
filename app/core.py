@@ -1,6 +1,10 @@
 """
 Main application of the SoccerAA
 """
+import os
+import sys
+import time
+import psutil
 import numpy as np
 
 from termcolor import colored
@@ -17,6 +21,9 @@ track_empty_space = config.TRACK_EMPTY_AREA or config.DELAYED_TRACK_EMPTY_AREA
 
 
 def run():
+    if config.CPU_BOOST:
+        init_cpu_boost()
+
     print('processing templates:\n')
 
     # Process templates
@@ -42,41 +49,69 @@ def run():
     check_frame, frame = stream.next()
 
     # init Result generator
-    result = result_generator.Result(config.TARGET_COMPRESSION_RATE, stream.frame_size, stream.n_frames, stream.fps)
+    result = result_generator.Result(config.TARGET_COMPRESSION, config.TARGET_COMPRESSION_RATE, stream.frame_size, stream.n_frames, stream.fps)
 
     logos_detected = None
 
     n_logos_tracked = 0
+
+    start_time = time.time()
+
+    searching_time = list()
+
     while check_frame:
         frame_plain = frame.copy()
 
         logos_tracked, frame = tracker.update(frame)
 
         if hlp.search_logos(tracker.n_tracked_frames, n_logos_tracked):
-            logos_detected, frame = detector.detect(frame)
+            start_searching = time.time()
+            logos_detected, frame = detector.search(frame)
+            end_searching = time.time()
+            searching_time.append(end_searching - start_searching)
 
         if track_empty_space and not logos_tracked and not logos_detected:
             tracker.add_empty_area(frame_plain)
-
-        if config.SHOW_IGNORE_AREA:
-            cv.imshow('ignored area', frame)
 
         tracker.add_objects(logos_detected, frame_plain)
 
         result.process(stream.current_frame, logos_detected, logos_tracked)
 
-        # cv.imshow('deteckted logos', frame )
-        # cv.waitKey(0)
-        # cv.destroyAllWindows()
-
         n_logos_tracked = tracker.n_tracked_frames
         check_frame, frame = stream.next()
+
+    end_time = time.time()
 
     # Release video read
     stream.finalize()
 
     # Generate reports
     result.finalize()
+
+    process_time = round(end_time - start_time)
+    average_search_time = sum(searching_time) / len(searching_time)
+    average_frame_time = process_time / result.n_frames
+
+    print(colored('\n\n-- Finished processing', 'green'))
+    print('\nTime for processing: {}'.format(process_time))
+    print('Average time per frame: {}'.format(average_frame_time))
+    print('Average time to search logos: {}'.format(average_search_time))
+
+
+def init_cpu_boost():
+    try:
+        sys.getwindowsversion()
+    except AttributeError:
+        is_windows = False
+    else:
+        is_windows = True
+
+    p = psutil.Process(os.getpid())
+
+    if is_windows:
+        p.nice(psutil.HIGH_PRIORITY_CLASS)
+    else:
+        p.nice(10)
 
 
 if __name__ == "__main__":

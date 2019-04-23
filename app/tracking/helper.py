@@ -2,6 +2,9 @@
 Helper Functions for Tracking
 """
 import numpy as np
+
+from app import config
+
 np.seterr(divide='ignore')
 
 
@@ -143,6 +146,18 @@ def box_in_frame(frame_height, frame_width, box, threshold):
         return False
 
     if box[3] + box[1] < height_threshold:
+        return False
+
+    return True
+
+
+def in_frame(frame_width, box):
+    box_length_threshold = box[2]/config.TRACK_BOX_OUT_OF_FRAME
+
+    if box[0] < -box_length_threshold:
+        return False
+
+    if box[0] + box[2] > frame_width + box_length_threshold:
         return False
 
     return True

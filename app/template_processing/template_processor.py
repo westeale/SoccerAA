@@ -84,6 +84,14 @@ class Template:
     def ratio(self):
         return self._ratio
 
+    @property
+    def average_color(self):
+        return self._average_color
+
+    @property
+    def dominant_colors(self):
+        return self._dominant_colors
+
 
 def process_templates():
     templates = []
