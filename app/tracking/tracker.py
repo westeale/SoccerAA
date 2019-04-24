@@ -67,7 +67,16 @@ class Tracker:
             black_bar = hlp.fill_bar(rectangle, frame_height)
             frame = cv.fillPoly(frame, [black_bar], 0)
             offsets = object_tracker.offsets
-            destination_polygon = hlp.calc_polygon(rectangle, offsets)
+            try:
+                destination_polygon = hlp.calc_polygon(rectangle, offsets)
+            except:
+                print("Error occured while calculating polygon:")
+                print(rectangle)
+                print("with offsets: {}")
+                print(offsets)
+                print("\n")
+                continue
+
             dst = destination_polygon
 
             if object_tracker.name in logos:
