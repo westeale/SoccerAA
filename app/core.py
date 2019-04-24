@@ -1,10 +1,8 @@
 """
 Main application of the SoccerAA
 """
-import os
-import sys
+
 import time
-import psutil
 
 from termcolor import colored
 from app.template_processing import template_processor
