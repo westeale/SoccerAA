@@ -4,7 +4,6 @@ Helper functions for feature detection
 import numpy as np
 import cv2 as cv
 
-from app import config
 
 
 def calc_rectangle(kp1, kp2, matches, template_height, template_width, shift):
