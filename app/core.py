@@ -14,7 +14,6 @@ from app.tracking import tracker as trck
 from app.result_processing import result_generator
 from app import config
 from app import helper as hlp
-import cv2 as cv
 
 track_empty_space = config.TRACK_EMPTY_AREA or config.DELAYED_TRACK_EMPTY_AREA
 
