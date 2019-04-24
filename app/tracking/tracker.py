@@ -38,9 +38,11 @@ class Tracker:
             boxes = logos[name]
             for box in boxes:
                 rectangle, offsets = hlp.calc_rectangle(box)
-                # rectangle = (abs(rectangle[0]), abs(rectangle[1]), abs(rectangle[2]), abs(rectangle[3]))
+                # self._object_trackers.append(ObjectTracker(frame, rectangle, config.FAST_TRACKER, offsets, name))
                 if rectangle[0] >= 0 and rectangle[1] >= 0 and rectangle[2] >= 0 and rectangle[3] >= 0:
                     self._object_trackers.append(ObjectTracker(frame, rectangle, config.FAST_TRACKER, offsets, name))
+
+
 
     def update(self, frame):
         frame_height, frame_width = frame.shape[:2]

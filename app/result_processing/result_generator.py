@@ -9,6 +9,7 @@ from termcolor import colored
 import app.result_processing.helper as hlp
 import numpy as np
 import cv2 as cv
+import os
 
 from app import config
 
@@ -17,6 +18,8 @@ class Out:
     def __init__(self):
         self._video_writer = None
         self._frame_counter = 0
+        if not os.path.exists(config.DIR_OUT):
+            os.makedirs(config.DIR_OUT)
 
 
     def init_video_writer(self, frame_size, frame_rate):
@@ -44,8 +47,10 @@ class Result:
         self._frame_size = (frame_size[1], frame_size[0])
         self._found_logos = list()
         self._n_frames = n_frames
+
         if config.INPUT_VIDEO:
             self._out.init_video_writer(self._frame_size, frame_rate)
+
 
 
     def process(self, image, logos_detected, logos_tracked):
@@ -80,7 +85,6 @@ class Result:
             logos[logo] = n_logos
 
         self._found_logos.append(logos)
-
 
         if config.SHOW_PROCESS:
             cv.imshow('result', image)
