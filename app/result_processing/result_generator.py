@@ -29,6 +29,7 @@ class Out:
         while os.path.isfile(filename.format(i)):
             i +=1
         filename = filename.format(i)
+        print(colored('\nWriting output in: {}\n'.format(filename), 'yellow'))
         self._video_writer = cv.VideoWriter(filename, fourcc, frame_rate, frame_size)
 
     def write(self, img):
@@ -55,6 +56,8 @@ class Result:
 
         if config.INPUT_VIDEO:
             self._out.init_video_writer(self._frame_size, frame_rate)
+        else:
+            print(colored('\nWriting output in: \out\n', 'yellow'))
 
 
 
