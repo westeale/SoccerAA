@@ -24,7 +24,12 @@ class Out:
 
     def init_video_writer(self, frame_size, frame_rate):
         fourcc = cv.VideoWriter_fourcc(*'DIVX')
-        self._video_writer = cv.VideoWriter(config.DIR_OUT + config.VIDEO_OUT_NAME, fourcc, frame_rate, frame_size)
+        filename = config.DIR_OUT + config.VIDEO_OUT_NAME
+        i = 1
+        while os.path.isfile(filename.format(i)):
+            i +=1
+        filename = filename.format(i)
+        self._video_writer = cv.VideoWriter(filename, fourcc, frame_rate, frame_size)
 
     def write(self, img):
         if config.INPUT_VIDEO:

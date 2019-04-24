@@ -7,7 +7,7 @@ DIR_TARGETS = '../data/in/targets/'
 DIR_VIDEOS = '../data/in/videos/'
 DIR_OUT = '../data/out/'
 IMAGE_OUT_NAME = 'result_{}.png'
-VIDEO_OUT_NAME = 'result.avi'
+VIDEO_OUT_NAME = 'result_{}.avi'
 
 DEBUG = True
 SHOW_PROCESS = False
