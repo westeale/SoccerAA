@@ -19,8 +19,6 @@ track_empty_space = config.TRACK_EMPTY_AREA or config.DELAYED_TRACK_EMPTY_AREA
 
 
 def run():
-    if config.CPU_BOOST:
-        init_cpu_boost()
 
     print('processing templates:\n')
 
@@ -94,22 +92,6 @@ def run():
     print('\nTime for processing: {}'.format(process_time))
     print('Average time per frame: {}'.format(average_frame_time))
     print('Average time to search logos: {}'.format(average_search_time))
-
-
-def init_cpu_boost():
-    try:
-        sys.getwindowsversion()
-    except AttributeError:
-        is_windows = False
-    else:
-        is_windows = True
-
-    p = psutil.Process(os.getpid())
-
-    if is_windows:
-        p.nice(psutil.HIGH_PRIORITY_CLASS)
-    else:
-        p.nice(10)
 
 
 if __name__ == "__main__":

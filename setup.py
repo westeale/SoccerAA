@@ -10,5 +10,5 @@ setup(
     author='Alex, Phil',
     author_email='',
     description='Advertisment analysis tool',
-    install_requires=['psutil', 'opencv-contrib-python==3.4.2.16', 'numpy', 'termcolor']
+    install_requires=['psutil', 'opencv-contrib-python==3.4.2.17', 'numpy', 'termcolor']
 )

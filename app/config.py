@@ -25,7 +25,6 @@ FAST_TRACKER = False
 TRACK_EMPTY_AREA = True
 DELAYED_TRACK_EMPTY_AREA = False
 LAZY_SEARCH = False
-CPU_BOOST = False
 
 
 # Prameters:
