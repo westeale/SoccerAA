@@ -34,17 +34,14 @@ def init():
 def set_accuracy(accuracy):
     if accuracy == 0:
         # features for high perfmance
-        config.ADD_DISTORTED_TEMPLATE = False
-        config.ADD_ORIGINAL_TEMPLATE = False
         config.TARGET_COMPRESSION = True
         config.FLANN_MATCHER = False
+        config.LAZY_SEARCH = True
         config.FAST_TRACKER = True
 
     elif accuracy == 1:
         # features for medium perfmance
         config.TARGET_COMPRESSION = True
-        config.FLANN_MATCHER = False
-        config.FAST_TRACKER = True
 
 
 if __name__ == "__main__":
