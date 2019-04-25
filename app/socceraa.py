@@ -42,6 +42,7 @@ def set_accuracy(accuracy):
     elif accuracy == 1:
         # features for medium perfmance
         config.TARGET_COMPRESSION = True
+        config.FLANN_MATCHER = False
 
 
 if __name__ == "__main__":
