@@ -21,7 +21,7 @@ def init():
 
     config.SHOW_PROCESS = args.out
     config.DEBUG = args.debug
-    # config.SHOW_IGNORE_AREA = args.tr
+    config.SHOW_IGNORE_AREA = args.tr
 
     if args.input != 'images':
         config.VIDEO_FILENAME = args.input
