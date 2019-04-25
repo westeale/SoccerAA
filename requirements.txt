@@ -1,0 +1,4 @@
+numpy
+termcolor
+opencv-contrib-python==3.4.2.17
+

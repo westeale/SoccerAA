@@ -4,7 +4,6 @@ Helper functions for feature detection
 import numpy as np
 import cv2 as cv
 
-from app import config
 
 
 def calc_rectangle(kp1, kp2, matches, template_height, template_width, shift):
@@ -36,15 +35,31 @@ def calc_rectangle(kp1, kp2, matches, template_height, template_width, shift):
 
 def check_box(dst, ratio_check):
     """
-    Tests ratio and size of the found matching box
+    Tests ratio, position and size of the found matching box
         :param dst: points for rectangle in target
-        :return: True if ratio and size is valid
+        :return: True if ratio, position and size is valid
     """
+
+    position1 = dst[0][0][0] < dst[3][0][0]
+
+    position2 = dst[0][0][1] < dst[1][0][1]
+
+    position3 = dst[1][0][0] < dst[2][0][0]
+
+    position4 = dst[3][0][1] < dst[2][0][1]
+
+    positions = position1 and position2 and position3 and position4
+
+    if not positions:
+        return False
+
     r1 = (dst[3][0][0] - dst[0][0][0]) / (dst[1][0][0] - dst[2][0][0])
     r2 = (dst[1][0][1] - dst[0][0][1]) / (dst[2][0][1] - dst[3][0][1])
     ratio = abs(r1) < 1.3 and abs(r1) > 0.7 and abs(r2) < 1.3 and abs(r2) > 0.7
     r3 = abs((dst[1][0][0] - dst[2][0][0]) / (dst[1][0][1] - dst[0][0][1]))
     test_ratio = 0.3 < abs(ratio_check / r3) < 3
+
+
 
     # crossed points check:
     return ratio and test_ratio

@@ -1,11 +1,8 @@
 """
 Main application of the SoccerAA
 """
-import os
-import sys
+
 import time
-import psutil
-import numpy as np
 
 from termcolor import colored
 from app.template_processing import template_processor
@@ -15,14 +12,11 @@ from app.tracking import tracker as trck
 from app.result_processing import result_generator
 from app import config
 from app import helper as hlp
-import cv2 as cv
 
 track_empty_space = config.TRACK_EMPTY_AREA or config.DELAYED_TRACK_EMPTY_AREA
 
 
 def run():
-    if config.CPU_BOOST:
-        init_cpu_boost()
 
     print('processing templates:\n')
 
@@ -99,22 +93,6 @@ def run():
 
     print(result.found_logos)
     print(result.frame_rate)
-
-
-def init_cpu_boost():
-    try:
-        sys.getwindowsversion()
-    except AttributeError:
-        is_windows = False
-    else:
-        is_windows = True
-
-    p = psutil.Process(os.getpid())
-
-    if is_windows:
-        p.nice(psutil.HIGH_PRIORITY_CLASS)
-    else:
-        p.nice(10)
 
 
 if __name__ == "__main__":

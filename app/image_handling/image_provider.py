@@ -6,7 +6,6 @@ cashes previous images for backtracking
 import os
 import cv2 as cv
 
-from app import config
 
 
 class ImageProvider:

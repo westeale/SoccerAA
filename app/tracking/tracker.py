@@ -5,6 +5,7 @@ import numpy as np
 
 from app import config
 import app.tracking.helper as hlp
+from termcolor import colored
 import cv2 as cv
 
 
@@ -38,9 +39,13 @@ class Tracker:
             boxes = logos[name]
             for box in boxes:
                 rectangle, offsets = hlp.calc_rectangle(box)
-                # rectangle = (abs(rectangle[0]), abs(rectangle[1]), abs(rectangle[2]), abs(rectangle[3]))
-                if rectangle[0] >= 0 and rectangle[1] >= 0 and rectangle[2] >= 0 and rectangle[3] >= 0:
+                # self._object_trackers.append(ObjectTracker(frame, rectangle, config.FAST_TRACKER, offsets, name))
+                try:
                     self._object_trackers.append(ObjectTracker(frame, rectangle, config.FAST_TRACKER, offsets, name))
+                except:
+                    print(colored(' Failed to register tracker with rectangle: {}'.format(rectangle), 'red'))
+
+
 
     def update(self, frame):
         frame_height, frame_width = frame.shape[:2]
@@ -60,12 +65,18 @@ class Tracker:
                 continue
 
 
-            keep_trackers.append(object_tracker)
             self._n_tracked_frames += 1
             black_bar = hlp.fill_bar(rectangle, frame_height)
             frame = cv.fillPoly(frame, [black_bar], 0)
             offsets = object_tracker.offsets
-            destination_polygon = hlp.calc_polygon(rectangle, offsets)
+            try:
+                destination_polygon = hlp.calc_polygon(rectangle, offsets)
+            except:
+                print(colored(' Failed to calculate polygon with rectangle {} and offset {}'.format(rectangle, offsets), 'red'))
+                continue
+
+            keep_trackers.append(object_tracker)
+
             dst = destination_polygon
 
             if object_tracker.name in logos:
