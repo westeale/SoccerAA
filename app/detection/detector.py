@@ -4,7 +4,6 @@ with templates.
 
 Already found advertisments are not going to be searched again
 """
-import time
 
 import numpy as np
 
@@ -37,7 +36,10 @@ class Detector():
 
         logos = {}
         for template in self._templates:
-            frame_filtered = filter.color_filter(frame, template.dominant_colors)
+            if config.USE_COLOR_FILTERING:
+                frame_filtered = filter.color_filter(frame, template.dominant_colors)
+            else:
+                frame_filtered = frame.copy()
             frame_filtered = cv.cvtColor(frame_filtered, cv.COLOR_BGR2GRAY)
             ratio = template.ratio
 
