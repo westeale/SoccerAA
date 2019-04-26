@@ -6,8 +6,10 @@ DIR_TEMPLATES = '../data/in/templates/'
 DIR_TARGETS = '../data/in/targets/'
 DIR_VIDEOS = '../data/in/videos/'
 DIR_OUT = '../data/out/'
+DIR_REPORT = '../data/out/reports/'
 IMAGE_OUT_NAME = 'result_{}.png'
 VIDEO_OUT_NAME = 'result_{}.avi'
+REPORT_OUT_NAME = 'report_{}.csv'
 
 DEBUG = True
 SHOW_PROCESS = False

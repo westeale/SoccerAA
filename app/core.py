@@ -10,7 +10,6 @@ from app.image_handling import image_provider
 from app.detection import detector as dt
 from app.tracking import tracker as trck
 from app.result_processing import result_generator
-from app.result_processing import csvoutput
 from app import config
 from app import helper as hlp
 
@@ -90,7 +89,6 @@ def run():
     print('Average time per frame: {}'.format(average_frame_time))
     print('Average time to search logos: {}'.format(average_search_time))
 
-    csvoutput.create_csv(result.found_logos, result.frame_rate)
 
 
 if __name__ == "__main__":
