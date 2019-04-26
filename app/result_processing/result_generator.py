@@ -107,23 +107,29 @@ class Result:
                     time.sleep(0.1)
                     k = cv.waitKey(1) & 0xff
 
-
         self._out.write(image)
 
         sys.stdout.write('\r' + colored('{} out of {} frames processed', 'blue').format(len(self._found_logos), int(self._n_frames)))
 
-
     def finalize(self):
         self._out.finalize()
-
 
     @property
     def n_frames(self):
         return self._n_frames
 
+    @property
+    def frame_rate(self):
+        return self._frame_rate
 
+    @frame_rate.setter
+    def frame_rate(self, frame_rate):
+        self._frame_rate = frame_rate
 
+    @property
+    def found_logos(self):
+        return self._found_logos
 
-
-
-
+    @found_logos.setter
+    def found_logos(self, found_logos):
+        self._found_logos = found_logos
