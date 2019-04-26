@@ -13,8 +13,6 @@ from app.result_processing import result_generator
 from app import config
 from app import helper as hlp
 
-track_empty_space = config.TRACK_EMPTY_AREA or config.DELAYED_TRACK_EMPTY_AREA
-
 
 def run():
 
@@ -64,7 +62,7 @@ def run():
             end_searching = time.time()
             searching_time.append(end_searching - start_searching)
 
-        if track_empty_space and not logos_tracked and not logos_detected:
+        if config.TRACK_EMPTY_AREA and not logos_tracked and not logos_detected:
             tracker.add_empty_area(frame_plain)
 
         tracker.add_objects(logos_detected, frame_plain)
