@@ -104,10 +104,3 @@ def add_brand_to_csv(brand, times, occurences, filename):
 def clear_csv_file(filename):
     f = open(filename, 'w+')
     f.close()
-
-
-if __name__ == "__main__":
-    data = [{'wanda': 1}, {'wanda': 1}, {'wanda': 1},{'wanda': 1}]
-    fps = 25.0
-
-    create_csv(data, fps)
