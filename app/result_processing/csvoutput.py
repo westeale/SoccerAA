@@ -59,6 +59,9 @@ def add_brand_to_csv(brand, times, occurences, filename):
         if occurences[i-1] != occurences[i]:
             dict.update({i: occurences[i]})
 
+        if i == (length - 1) and len(dict) == 0:
+            dict.update({0: occurences[0]})
+
     sorted_ = sorted(dict)
     if sorted_[0] != 0:
         elems = occurences[:sorted_[0]]
