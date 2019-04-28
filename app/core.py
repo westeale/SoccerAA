@@ -10,11 +10,8 @@ from app.image_handling import image_provider
 from app.detection import detector as dt
 from app.tracking import tracker as trck
 from app.result_processing import result_generator
-from app.result_processing import csvoutput
 from app import config
 from app import helper as hlp
-
-track_empty_space = config.TRACK_EMPTY_AREA or config.DELAYED_TRACK_EMPTY_AREA
 
 
 def run():
@@ -65,7 +62,7 @@ def run():
             end_searching = time.time()
             searching_time.append(end_searching - start_searching)
 
-        if track_empty_space and not logos_tracked and not logos_detected:
+        if config.TRACK_EMPTY_AREA and not logos_tracked and not logos_detected:
             tracker.add_empty_area(frame_plain)
 
         tracker.add_objects(logos_detected, frame_plain)
@@ -92,7 +89,6 @@ def run():
     print('Average time per frame: {}'.format(average_frame_time))
     print('Average time to search logos: {}'.format(average_search_time))
 
-    csvoutput.create_csv(result.found_logos, result.frame_rate)
 
 
 if __name__ == "__main__":

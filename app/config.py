@@ -6,8 +6,10 @@ DIR_TEMPLATES = '../data/in/templates/'
 DIR_TARGETS = '../data/in/targets/'
 DIR_VIDEOS = '../data/in/videos/'
 DIR_OUT = '../data/out/'
+DIR_REPORT = '../data/out/reports/'
 IMAGE_OUT_NAME = 'result_{}.png'
 VIDEO_OUT_NAME = 'result_{}.avi'
+REPORT_OUT_NAME = 'report_{}.csv'
 
 DEBUG = True
 SHOW_PROCESS = False
@@ -23,7 +25,6 @@ TARGET_COMPRESSION = False
 FLANN_MATCHER = True
 FAST_TRACKER = False
 TRACK_EMPTY_AREA = True
-DELAYED_TRACK_EMPTY_AREA = True
 LAZY_SEARCH = False
 
 
@@ -37,7 +38,7 @@ MIN_MATCHING_COUNT = 10
 TEMPLATE_RATIO_THRESHOLD = 4
 EMPTY_BOX_OFFSET = 2
 EMPTY_BOX_IN_FRAME = 40
-EMPTY_TRACKER_DELAY = 2
+EMPTY_TRACKER_DELAY = 3
 TRACK_BOX_OUT_OF_FRAME = 1.5
 
 #Drawing Parameters:
