@@ -56,6 +56,9 @@ def add_brand_to_csv(brand, times, occurences):
         if occurences[i-1] != occurences[i]:
             dict.update({i: occurences[i]})
 
+        if i == (length - 1) and len(dict) == 0:
+            dict.update({0: occurences[0]})
+
     sorted_ = sorted(dict)
     if sorted_[0] != 0:
         elems = occurences[:sorted_[0]]
@@ -99,3 +102,10 @@ def clear_csv_file():
     filename = "survey.csv"
     f = open(filename, 'w+')
     f.close()
+
+
+if __name__ == "__main__":
+    data = [{'wanda': 1}, {'wanda': 1}, {'wanda': 1},{'wanda': 1}]
+    fps = 25.0
+
+    create_csv(data, fps)
