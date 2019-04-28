@@ -6,6 +6,7 @@ import time
 
 from termcolor import colored
 
+import app.result_processing.csvoutput as csv
 import app.result_processing.helper as hlp
 import numpy as np
 import cv2 as cv
@@ -20,6 +21,9 @@ class Out:
         self._frame_counter = 0
         if not os.path.exists(config.DIR_OUT):
             os.makedirs(config.DIR_OUT)
+
+        if not os.path.exists(config.DIR_REPORT):
+            os.makedirs(config.DIR_REPORT)
 
 
     def init_video_writer(self, frame_size, frame_rate):
@@ -113,23 +117,10 @@ class Result:
 
     def finalize(self):
         self._out.finalize()
+        if config.INPUT_VIDEO:
+            csv.create_csv(self._found_logos, self._frame_rate)
 
     @property
     def n_frames(self):
         return self._n_frames
 
-    @property
-    def frame_rate(self):
-        return self._frame_rate
-
-    @frame_rate.setter
-    def frame_rate(self, frame_rate):
-        self._frame_rate = frame_rate
-
-    @property
-    def found_logos(self):
-        return self._found_logos
-
-    @found_logos.setter
-    def found_logos(self, found_logos):
-        self._found_logos = found_logos

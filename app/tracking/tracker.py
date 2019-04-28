@@ -107,12 +107,11 @@ class Tracker:
 
     def add_empty_area(self, frame):
         if not self._empyt_tracker:
-            if config.DELAYED_TRACK_EMPTY_AREA:
-                if self._n_empty_frames < config.EMPTY_TRACKER_DELAY:
-                    self._n_empty_frames += 1
-                    return
-                else:
-                    self._n_empty_frames = 0
+            if self._n_empty_frames < config.EMPTY_TRACKER_DELAY:
+                self._n_empty_frames += 1
+                return
+            else:
+                self._n_empty_frames = 0
 
             frame_height, frame_width = frame.shape[:2]
             box = hlp.calc_frame_box(frame_height, frame_width, config.EMPTY_BOX_OFFSET)

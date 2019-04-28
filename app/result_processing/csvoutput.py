@@ -1,26 +1,29 @@
 import datetime
 import csv
+import os
+
+from termcolor import colored
+
+from app import config
 
 
 def create_csv(branddata, framerate):
-    if not isinstance(framerate, int) and not isinstance(framerate, float):
-        print("Framerateparameter not int or float. Type of framerate: " + str(type(framerate)))
-        exit(-1)
-
-    if (len(branddata)) is 0:
-        print("No framedata provided. Length of data: " + str(len(branddata)))
-        exit(-1)
+    filename = config.DIR_REPORT + config.REPORT_OUT_NAME
+    i = 1
+    while os.path.isfile(filename.format(i)):
+        i += 1
+    filename = filename.format(i)
 
     brands = set().union(*(frame.keys() for frame in branddata))
 
-    clear_csv_file()
+    clear_csv_file(filename)
 
     for brand in brands:
         times, occurences = get_times_and_occurences_for_brand(brand, branddata, framerate)
         if len(times) != len(occurences):
-            print("Error: Number of frame data times and frame data occurences mismatches.")
+            print(colored('\nError: Number of frame data times and frame data occurences mismatches.', 'red'))
             exit(-1)
-        add_brand_to_csv(brand, times, occurences)
+        add_brand_to_csv(brand, times, occurences, filename)
 
 
 def get_times_and_occurences_for_brand(brand, branddata, framerate):
@@ -46,7 +49,7 @@ def get_times_and_occurences_for_brand(brand, branddata, framerate):
     return times, occurences
 
 
-def add_brand_to_csv(brand, times, occurences):
+def add_brand_to_csv(brand, times, occurences, filename):
     csv_ = {brand: {}}
     dict_ = {}
     dict = {}
@@ -90,7 +93,7 @@ def add_brand_to_csv(brand, times, occurences):
 
     csv_[brand].update(dict_)
 
-    with open('survey.csv', 'a', newline='') as csv_file:
+    with open(filename, 'a', newline='') as csv_file:
         writer = csv.writer(csv_file)
         for key, time_occurences in csv_.items():
             writer.writerow([key])
@@ -98,8 +101,7 @@ def add_brand_to_csv(brand, times, occurences):
                 writer.writerow([";" + time + ";" + str(value)])
 
 
-def clear_csv_file():
-    filename = "survey.csv"
+def clear_csv_file(filename):
     f = open(filename, 'w+')
     f.close()
 
