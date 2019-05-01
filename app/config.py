@@ -11,11 +11,13 @@ IMAGE_OUT_NAME = 'result_{}.png'
 VIDEO_OUT_NAME = 'result_{}.avi'
 REPORT_OUT_NAME = 'report_{}.csv'
 
+
 DEBUG = True
 SHOW_PROCESS = False
 INPUT_VIDEO = False
 VIDEO_FILENAME = ''
 SHOW_IGNORE_AREA = False
+
 
 # Features:
 USE_COLOR_FILTERING = False
