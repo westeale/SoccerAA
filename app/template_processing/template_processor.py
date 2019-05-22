@@ -61,6 +61,7 @@ def extract_features(img):
         features.append(Feature(img_shifted_up, shift_up))
         features.append(Feature(img_shifted_down, shift_down))
 
+
     return features
 
 

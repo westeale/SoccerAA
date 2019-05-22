@@ -109,4 +109,5 @@ venv.bak/
 # ignore data
 data/out/
 data/in/
+*.csv
 

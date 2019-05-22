@@ -54,7 +54,10 @@ def run():
     while check_frame:
         frame_plain = frame.copy()
 
-        logos_tracked, frame = tracker.update(frame)
+        if config.INPUT_VIDEO:
+            logos_tracked, frame = tracker.update(frame)
+        else:
+            logos_tracked = {}
 
         if hlp.search_logos(tracker.n_tracked_frames, n_logos_tracked):
             start_searching = time.time()

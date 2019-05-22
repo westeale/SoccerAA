@@ -36,7 +36,6 @@ def set_accuracy(accuracy):
         # features for high perfmance
         config.TARGET_COMPRESSION = True
         config.FLANN_MATCHER = False
-        config.LAZY_SEARCH = True
         config.FAST_TRACKER = True
 
     elif accuracy == 1:
