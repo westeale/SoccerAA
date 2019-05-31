@@ -107,5 +107,8 @@ venv.bak/
 .idea/
 
 # ignore data
+data/out/
+data/in/
 *.csv
+
 
