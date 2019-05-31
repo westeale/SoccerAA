@@ -48,7 +48,7 @@ to the name of the video in ``` data/in/videos ``` to analyze whole video. Defau
 
 *-debug:* Flag which enables debug messages in console. <br><br>
 
-*-ou:* Flag which shows in realtime results during process. <br><br>
+*-out:* Flag which shows in realtime results during process. <br><br>
 
 *-tr:* Flag which shows in realtime filtered Area from various features. 
 
