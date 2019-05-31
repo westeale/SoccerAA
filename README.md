@@ -37,7 +37,36 @@ Two example templates are already provided.
 PNG or JPG images are accepted.
 
 To run the application switch to the directory ```app/``` and use the following command: <br>
+```python3 socceraa.py [-h] [--input INPUT] [--accuracy {low,medium,high}] [-debug] [-out] [-tr]``` <br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; optional arguments:
 
+*-h, --help:* Shows help message and exits. <br><br>
+*--input INPUT:* Set INPUT to 'images' to analyse the single images in the directory ``` data/in/targets ``` . Set INPUT
+to the name of the video in ``` data/in/videos ``` to analyze whole video. Default: 'images' <br><br>
+
+*--accuracy:* Set accuracy of ad detection (low accuracy has highest performance) <br><br>
+
+*-debug:* Flag which enables debug messages in console. <br><br>
+
+*-ou:* Flag which shows in realtime results during process. <br><br>
+
+*-tr:* Flag which shows in realtime filtered Area from various features. 
+
+<br>
+
+**Examples:**<br>
+```python3 socceraa.py --input images```<br>
+Starts the application and analyzes the pictures in ```data/in/targets ``` for ads in ```data/in/templates ``` <br><br>
+
+```python3 socceraa.py --input wanda.mp4 --accuracy medium -out```<br>
+Analyzes the video "wanda.mp4" for ads in ```data/in/templates ``` in medium accuracy 
+and shows the results in realtime. <br><br>
+
+```python3 socceraa.py --input qatar.mp4 --accuracy high```<br>
+Analyzes the video "qatar.mp4" in highest accuracy.<br><br>
+
+**Output:**<br>
+The outputs are generated in the directory: ``` /data/out ```
 
 
 
